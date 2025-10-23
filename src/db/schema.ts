@@ -78,3 +78,14 @@ export type CashOut = typeof cashOut.$inferSelect;
 export type NewGroup = typeof groups.$inferInsert;
 export type NewCashIn = typeof cashIn.$inferInsert;
 export type NewCashOut = typeof cashOut.$inferInsert;
+
+type TransactionType = "cash_in" | "cash_out";
+
+export type LatestTransaction = {
+  id: number;
+  type: TransactionType;
+  name: string;
+  amount: number;
+  createdAt: string; // Assuming 'text' for date/time
+  groupId: number;
+};
