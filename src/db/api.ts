@@ -23,11 +23,12 @@ export const getGroupById = (db: DrizzleDb, id: number) => {
   return db.select().from(groups).where(eq(groups.id, id)).get();
 };
 
-export const addGroup = (db: DrizzleDb, newGroup: NewGroup) => {
-  return db.insert(groups).values(newGroup).returning().get();
+export const addGroup = async (db: DrizzleDb, newGroup: NewGroup) => {
+  const result = db.insert(groups).values(newGroup).returning().get();
+  return Promise.resolve(result);
 };
 
-export const deleteGroup = (db: DrizzleDb, id: number) => {
+export const deleteGroup = async (db: DrizzleDb, id: number) => {
   return db.delete(groups).where(eq(groups.id, id)).run();
 };
 
