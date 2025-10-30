@@ -1,5 +1,5 @@
 import { useDb } from "@/src/db";
-import { getGroupById, getGroups } from "@/src/db/api";
+import { getGroupById, getGroups } from "@/src/db/api/groups";
 import { useQuery } from "@tanstack/react-query";
 import { GROUP_LIST_KEY, SINGLE_GROUP_KEY } from "../keys";
 

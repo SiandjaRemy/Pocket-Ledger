@@ -8,6 +8,13 @@
       "when": 1761210119519,
       "tag": "0000_bitter_ares",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1761346699420,
+      "tag": "0001_hot_red_ghost",
+      "breakpoints": true
     }
   ]
 }

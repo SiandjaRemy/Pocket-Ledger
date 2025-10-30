@@ -1,31 +1,39 @@
-import { Stack } from "expo-router";
-import { SQLiteProvider } from "expo-sqlite";
-import { Suspense } from "react";
-import { ActivityIndicator } from "react-native";
+import { COLORS } from "@/src/constants/colors";
+import { Feather } from "@expo/vector-icons";
+import { Tabs } from "expo-router";
 
-import * as SplashScreen from "expo-splash-screen";
-
-export const DATABASE_NAME = "pocketLedger";
-
-SplashScreen.preventAutoHideAsync();
-
-SplashScreen.setOptions({
-  duration: 400,
-  fade: true,
-});
-
-export default function RootLayout() {
-  // const expoDb = openDatabaseSync(DATABASE_NAME);
-  // const db = drizzle(expoDb);
-  // const { success, error } = useMigrations(db, migrations);
-
+export default function TabsLayout() {
   return (
-    <Suspense fallback={<ActivityIndicator size="large" />}>
-      <SQLiteProvider databaseName={DATABASE_NAME} useSuspense>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        </Stack>
-      </SQLiteProvider>
-    </Suspense>
+    <Tabs
+      screenOptions={{
+        tabBarStyle: {
+          backgroundColor: COLORS.white,
+          borderTopColor: "#e5e5e5",
+        },
+        tabBarActiveTintColor: COLORS.blue, // Your main blue color
+        tabBarInactiveTintColor: COLORS.gray, // Gray color
+      }}
+    >
+      <Tabs.Screen
+        name="HomeScreen"
+        options={{
+          headerShown: false,
+          title: "Home",
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="home" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="groups"
+        options={{
+          headerShown: false,
+          title: "Groups",
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="folder" size={size} color={color} />
+          ),
+        }}
+      />
+    </Tabs>
   );
 }

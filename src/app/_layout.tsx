@@ -3,13 +3,15 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { openDatabaseSync, SQLiteProvider } from "expo-sqlite";
 import { Suspense, useEffect } from "react";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, StatusBar } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import "@/global.css";
 
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 // Import your migrations
 import migrations from "../drizzle/migrations";
+import QueryProvider from "../providers/QueryProvider";
 
 export const DATABASE_NAME = "pocket_ledger";
 
@@ -20,15 +22,20 @@ export default function RootLayout() {
   return (
     // The Suspense boundary handles the database loading state
     <Suspense fallback={<ActivityIndicator size="large" style={{ flex: 1 }} />}>
+      <StatusBar barStyle="dark-content" />
+
       <SQLiteProvider databaseName={DATABASE_NAME} useSuspense>
         {/* This component loads the migrations and hides the splash 
           screen *after* the DB is open and migrations are done.
         */}
-        <MigrationsLoader>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          </Stack>
-        </MigrationsLoader>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <MigrationsLoader>
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="index" options={{ headerShown: false }} />
+            </Stack>
+          </MigrationsLoader>
+        </GestureHandlerRootView>
       </SQLiteProvider>
     </Suspense>
   );
@@ -58,5 +65,5 @@ function MigrationsLoader({ children }: { children: React.ReactNode }) {
   // If migrations are still running (success is false) and there's no error,
   // the Suspense fallback (ActivityIndicator) will still be shown.
   // Once success is true, we render the app's children (the Stack).
-  return success ? <>{children}</> : null;
+  return success ? <QueryProvider>{children}</QueryProvider> : null;
 }

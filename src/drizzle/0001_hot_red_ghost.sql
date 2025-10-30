@@ -1,0 +1,1 @@
+ALTER TABLE `groups` ADD `is_active` integer DEFAULT true NOT NULL;

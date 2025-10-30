@@ -7,6 +7,7 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 export const groups = sqliteTable("groups", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name").notNull(),
+  isActive: integer("is_active", { mode: "boolean" }).notNull().default(true), // true by default
 
   // Auto-generated creation date
   createdAt: text("created_at")
@@ -66,26 +67,3 @@ export const cashOut = sqliteTable("cash_out", {
     .notNull()
     .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
 });
-
-// Types definition and export
-
-// Select types (what you get *from* the DB)
-export type Group = typeof groups.$inferSelect;
-export type CashIn = typeof cashIn.$inferSelect;
-export type CashOut = typeof cashOut.$inferSelect;
-
-// 👇 ADD THESE: Insert types (what you send *to* the DB)
-export type NewGroup = typeof groups.$inferInsert;
-export type NewCashIn = typeof cashIn.$inferInsert;
-export type NewCashOut = typeof cashOut.$inferInsert;
-
-type TransactionType = "cash_in" | "cash_out";
-
-export type LatestTransaction = {
-  id: number;
-  type: TransactionType;
-  name: string;
-  amount: number;
-  createdAt: string; // Assuming 'text' for date/time
-  groupId: number;
-};
