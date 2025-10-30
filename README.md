@@ -1,50 +1,108 @@
-# Welcome to your Expo app 👋
+# 💰 Pocket Ledger
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A simple, local-first, and offline-ready mobile app for tracking income and expenses within customizable groups. Built with Expo, Drizzle ORM, and TanStack Query.
 
-## Get started
+## ✨ Features
 
-1. Install dependencies
+- **Group Management:** Create and manage distinct "groups" or "ledgers" (e.g., 'Vacation 2025', 'Side Project', 'Household').
+- **Transaction Tracking:** Log income (cash in) and expenses (cash out) with details like name, amount, source/reason, and date.
+- **Combined Feed:** View a unified, date-sorted transaction history for each group, or see all recent transactions on the home screen.
+- **Swipe Actions:**
+  - **Deactivate/Reactivate:** Soft-deactivate groups to hide them from the main list without losing data.
+  - **Delete:** Permanently delete a group and all its associated transactions.
+- **Offline First:** All data is stored directly on your device using SQLite. The app works fully offline.
+- **Modern Stack:** Built with a modern, type-safe, and performant tech stack.
 
-   ```bash
-   npm install
-   ```
+---
 
-2. Start the app
+## 🛠️ Tech Stack
 
-   ```bash
-   npx expo start
-   ```
+- **Framework:** [Expo (React Native)](https://expo.dev/)
+- **Routing:** [Expo Router](https://expo.github.io/expo-router/) (file-based)
+- **Database:** [Expo-SQLite](https://docs.expo.dev/versions/latest/sdk/sqlite/)
+- **ORM:** [Drizzle ORM](https://orm.drizzle.team/) (for type-safe SQL)
+- **Data Fetching & State:** [TanStack Query](https://tanstack.com/query/latest) (for managing async DB operations)
+- **UI/Styling:** [NativeWind v4](https://www.nativewind.dev/) (Tailwind CSS for React Native)
+- **Gestures:** [React Native Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/) (for swipe actions)
+- **Animations:** [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/)
 
-In the output, you'll find options to open the app in a
+---
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 🚀 Getting Started
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### Prerequisites
 
-## Get a fresh project
+- [Node.js](https://nodejs.org/) (LTS version)
+- `npm` or `yarn`
+- [Expo] app on your iOS or Android device (for development)
 
-When you're ready, run:
+### Installation & Running
 
-```bash
-npm run reset-project
+1.  **Clone the repository:**
+
+    ```bash
+    git clone [https://github.com/SiandjaRemy/Pocket-Ledger.git](https://github.com/SiandjaRemy/Pocket-Ledger.git)
+    cd PocketLedger
+    ```
+
+2.  **Install dependencies:**
+
+    ```bash
+    npm install
+    ```
+
+3.  **Run the app:**
+
+    ```bash
+    npx expo start
+    ```
+
+4.  Scan the QR code with the Expo Go app on your phone.
+
+The app automatically runs database migrations on the first launch using the `useMigrations` hook in `app/_layout.tsx`.
+
+### Development (Making Schema Changes)
+
+If you need to change the database schema (`db/schema.ts`):
+
+1.  Modify the schema file.
+2.  Run Drizzle Kit to generate a new migration file:
+    ```bash
+    npx drizzle-kit generate
+    ```
+3.  Re-run the app. The new migration will be applied automatically.
+
+---
+
+## 📁 Project Structure
+
+```
+.
+├── app/              # Expo Router routes (all screens and layouts)
+│   ├── (tabs)/       # Main tab navigator
+│   │   ├── groups/   # Group list and detail screens
+│   │   └── index.tsx # Home screen
+│   └── _layout.tsx   # Root layout (with DB & Query providers)
+│
+├── db/               # Database logic
+│   ├── api/          # Data-fetching functions (grouped by model)
+│   ├── schema.ts     # Drizzle schema (table definitions)
+│   └── index.ts      # `useDb` hook
+│
+├── drizzle/          # Auto-generated Drizzle migration files
+│
+├── hooks/            # Custom TanStack Query hooks (grouped by model)
+│   └── groups/       # e.g., `useGetGroups`, `useAddGroup`
+│
+├── provider/         # React Context providers (e.g., QueryProvider)
+│
+├── types/            # Shared TypeScript type definitions
+│
+└── utils/            # Helper functions (e.g., `formatAmount`)
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## 📄 License
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+This project is licensed under the MIT License.
